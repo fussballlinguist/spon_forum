@@ -65,14 +65,17 @@ while (defined $url) {
 	foreach (@comments) {
 		if ($_ =~ /<a href="\/forum\/member-\d+.html"><b>(.*?)</) {
 			$comment_user = $1;
+			$comment_user = clean_xml($comment_user)
 		}
 		if ($_ =~ /<div class="article-comment-title">\s+<a .+?>(.*?)</s) {
 			$comment_title = decode_entities($1);
 			$comment_title =~ s/\s+/ /g;
+			$comment_title = clean_xml($comment_title)
 		}
 		if ($_ =~ /<span class="postContent">(.+?)<\/span>/s) {
 			$comment_p = decode_entities($1);
 			$comment_p =~ s/<br \/>\s/ /g;
+			$comment_p =~ s/<.+?>//g;
 			$comment_p = clean_xml($comment_p);
 		}
 		print OUT "\t<comment>
