@@ -30,6 +30,8 @@ my $date;
 my $url_article;
 my $teaser;
 my $comment_user;
+my $comment_url;
+my $comment_date;
 my $comment_nr;
 my $comment_title;
 my $comment_p;
@@ -68,9 +70,10 @@ while (defined $url) {
 			$comment_user = $1;
 			$comment_user = clean_xml($comment_user)
 		}
-		if ($_ =~ /<div class="article-comment-title">\s+<a .+?>(\d+)\.\s+(.*?)</s) {
-			$comment_nr = $1;
-			$comment_title = decode_entities($2);
+		if ($_ =~ /<div class="article-comment-title">\s+<a class="\S+" href="(\S+)" \S+>(\d+)\.\s+(.*?)</s) {
+			$comment_url = "http://www.spiegel.de" . $1;
+			$comment_nr = $2;
+			$comment_title = decode_entities($3);
 			$comment_title =~ s/\s+/ /g;
 			$comment_title = clean_xml($comment_title)
 		}
@@ -80,8 +83,13 @@ while (defined $url) {
 			$comment_p =~ s/<.+?>//g;
 			$comment_p = clean_xml($comment_p);
 		}
+		if ($_ =~ /<span class="date-time">(.+?)</) {
+			$comment_date = $1;
+		}
 		print OUT "\t<comment>
 		<comment_nr>$comment_nr</comment_nr>
+		<comment_url>$comment_url</comment_url>
+		<comment_date>$comment_date</comment_date>
 		<comment_user>$comment_user</comment_user>
 		<comment_title>$comment_title</comment_title>
 		<comment_p>$comment_p</comment_p>
@@ -104,4 +112,3 @@ sub clean_xml{
 	$path =~ s/[“”„«»]/"/g;
 	$path =~ s/[’‘‚]/'/g;
 	return($path);
-}
