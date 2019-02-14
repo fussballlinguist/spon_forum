@@ -103,7 +103,7 @@ while (defined $url) {
 }
 print OUT "</text>\n";
 
-sub clean_xml{
+sub clean_xml {
 	my $path = $_[0];
 	decode_entities($path);
 	$path =~ s/&/\&amp;/g;
@@ -112,3 +112,4 @@ sub clean_xml{
 	$path =~ s/[“”„«»]/"/g;
 	$path =~ s/[’‘‚]/'/g;
 	return($path);
+}
