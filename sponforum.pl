@@ -15,10 +15,10 @@ use open ':std', ':encoding(utf8)';
 ###################################################################################
 
 # URL angeben
-my $url = "http://www.spiegel.de/forum/wirtschaft/freiheit-gefahr-ist-der-westen-noch-zu-retten-thread-817475-1.html";
+my $url = "http://www.spiegel.de/forum/politik/spd-abkehr-von-hartz-iv-genossen-berauschen-sich-am-linksruck-thread-863514-1.html";
 
 # Zielpfad angeben (der Ordner wird ggf. neu angelegt)
-my $path = "/Users/Simon/Korpora/SPON_Forum";
+my $path = "/Pfad/zum/Ordner/SPON_Forum";
 
 ############################
 # No changes below this line
@@ -30,6 +30,7 @@ my $date;
 my $url_article;
 my $teaser;
 my $comment_user;
+my $comment_nr;
 my $comment_title;
 my $comment_p;
 
@@ -67,8 +68,9 @@ while (defined $url) {
 			$comment_user = $1;
 			$comment_user = clean_xml($comment_user)
 		}
-		if ($_ =~ /<div class="article-comment-title">\s+<a .+?>(.*?)</s) {
-			$comment_title = decode_entities($1);
+		if ($_ =~ /<div class="article-comment-title">\s+<a .+?>(\d+)\.\s+(.*?)</s) {
+			$comment_nr = $1;
+			$comment_title = decode_entities($2);
 			$comment_title =~ s/\s+/ /g;
 			$comment_title = clean_xml($comment_title)
 		}
@@ -79,6 +81,7 @@ while (defined $url) {
 			$comment_p = clean_xml($comment_p);
 		}
 		print OUT "\t<comment>
+		<comment_nr>$comment_nr</comment_nr>
 		<comment_user>$comment_user</comment_user>
 		<comment_title>$comment_title</comment_title>
 		<comment_p>$comment_p</comment_p>
