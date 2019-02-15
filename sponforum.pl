@@ -41,7 +41,7 @@ if ($url =~ /forum\/\w+\/(.*?)-thread-/) {
 }
 qx(mkdir -p $path);
 open OUT, "> $filename";
-my $html = qx(curl -s -L '$url');
+my $html = qx(curl -s -L $url);
 if ($html =~ /<title>(.+?)</) {
 	$title = $1;
 }
@@ -62,7 +62,7 @@ print OUT "<text>
 	<teaser>$teaser</teaser>\n";
 while (defined $url) {
 	print "$url\n";
-	my $html = qx(curl -s -L '$url');
+	my $html = qx(curl -s -L $url);
 	my @comments = split (/class="postbit clearfix"/, $html);
 	shift @comments;
 	foreach (@comments) {
