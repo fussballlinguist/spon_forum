@@ -4,17 +4,17 @@
 	<xsl:template match="text">
 		<text>
 			<xsl:attribute name="title">
-		<xsl:value-of select="//title"/>
-		</xsl:attribute>
+				<xsl:value-of select="//title"/>
+			</xsl:attribute>
 			<xsl:attribute name="url">
-		<xsl:value-of select="//url"/>
-		</xsl:attribute>
-		<xsl:attribute name="date">
-			<xsl:value-of select="//date"/>
-		</xsl:attribute>
-		<xsl:attribute name="teaser">
-			<xsl:value-of select="//teaser"/>
-		</xsl:attribute>
+				<xsl:value-of select="//url"/>
+			</xsl:attribute>
+			<xsl:attribute name="date">
+				<xsl:value-of select="//date"/>
+			</xsl:attribute>
+			<xsl:attribute name="teaser">
+				<xsl:value-of select="//teaser"/>
+			</xsl:attribute>
 			<xsl:apply-templates/>
 		</text>
 	</xsl:template>
@@ -23,7 +23,7 @@
 			<xsl:apply-templates/>
 		</comment>
 	</xsl:template>
-		<xsl:template match="*|text()">
+	<xsl:template match="*|text()">
 		<xsl:apply-templates/>
 	</xsl:template>	
 	<xsl:template match="comment_title">
